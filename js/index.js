@@ -10,20 +10,31 @@ showNotes();
 let addBtn = document.getElementById("addBtn");
 addBtn.addEventListener("click", function (e) {
     let addtxt = document.getElementById("addtxt");
+    let addTitle = document.getElementById("addTitle");
     // console.log(addtxt.value)
     let notes = localStorage.getItem("notes");
+    // console.log(localStorage)
 
     if (notes == null) {
         notesObj = []
     } else {
         notesObj = JSON.parse(notes);
+        console.log(notesObj)
     }
 
-    notesObj.push(addtxt.value);
+    // we are creating object for to add title and store text with title in an notesObj array.
+    let myObj = {
+        title: addTitle.value,
+        text: addtxt.value
+    }
+
+
+    notesObj.push(myObj);
     localStorage.setItem("notes", JSON.stringify(notesObj))
+    addTitle.value = ""
     addtxt.value = ""
     // console.log(addtxt)
-    console.log(localStorage)
+    // console.log(localStorage)
 
     // this following function is for to show notes
     showNotes();
@@ -42,13 +53,19 @@ function showNotes() {
     let html = ""
 
     notesObj.forEach(function (element, index) {
-        html += `<div class="noteCard my-2 mx-2" style="width: 15.6rem">
-          <div class="card-body">
-            <h5 class="card-title"> Note ${index + 1}</h5>
-            <p>${element}</p>
-            <button href="#" id=${index} onclick='deleteNote(this.id)' class="btn btn-primary">delete</button>
-          </div>
-          </div>`
+        html += `<div class=" my-2 mx-2" style="width: 16rem; display: flex;">
+                    <div class="card-body">
+                        <div class=" noteCard" style="width:14rem; background-color: rgb(196, 182, 182); >
+                            <h5 class="card-title">${element.title}</h5>
+                        </div>
+                        <div class="form-control noteCard" style = "height: 10rem; width:14rem;"   >
+                            <p>${element.text}</p>
+                        </div>
+                        <div class="my-2">
+                            <button href="#" id=${index} onclick='deleteNote(this.id)' class="btn btn-primary">delete</button>
+                        </div>
+                    </div>
+                </div>`
         //   onclick='deleteNote(this.id)  =>   if anyone will cick the delete button then onclick will call deleteNote functoin by it's id.
 
     })
@@ -57,7 +74,7 @@ function showNotes() {
         collection.innerHTML = html;
 
     } else {
-        collection.innerHTML = `Hey coder today write your notes .`
+        collection.innerHTML = `<p><strong> What are you waiting for write your Notes.<strong></p>`
     }
 }
 
@@ -109,3 +126,15 @@ search.addEventListener("input", function () {
     })
 
 })
+
+
+
+
+
+/*
+Further Features:
+1. Add Title
+2. Mark a note as Important
+3. Separate notes by user
+4. Sync and host to web server 
+*/ 
