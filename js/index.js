@@ -28,8 +28,9 @@ addBtn.addEventListener("click", function (e) {
         text: addtxt.value
     }
 
-
-    notesObj.push(myObj);
+    if (addTitle.value.length !== 0 && addtxt.value.length != 0) {
+        notesObj.push(myObj);
+    }
     localStorage.setItem("notes", JSON.stringify(notesObj))
     addTitle.value = ""
     addtxt.value = ""
@@ -55,7 +56,7 @@ function showNotes() {
     notesObj.forEach(function (element, index) {
         html += `<div class=" my-2 mx-2" style="width: 16rem; display: flex;">
                     <div class="card-body">
-                        <div class=" noteCard" style="width:14rem; background-color: rgb(196, 182, 182); >
+                        <div class=" noteCard" style=" text-align:center; width:14rem; background-color: rgb(196, 182, 182); >
                             <h5 class="card-title">${element.title}</h5>
                         </div>
                         <div class="form-control noteCard" style = "height: 10rem; width:14rem;"   >
@@ -70,6 +71,7 @@ function showNotes() {
 
     })
     let collection = document.getElementById("notes");
+    // console.log(notesObj.length)
     if (notesObj.length != 0) {
         collection.innerHTML = html;
 
@@ -86,7 +88,7 @@ function showNotes() {
 
 // function for delete an item
 function deleteNote(index) {
-    console.log("this delete function is called")
+    // console.log("this delete function is called")
     let notes = localStorage.getItem("notes");
     notesObj = JSON.parse(notes);
     notesObj.splice(index, 1)
@@ -113,7 +115,7 @@ search.addEventListener("input", function () {
     let notesCards = document.getElementsByClassName("noteCard");
     // console.log(notesCards)
     Array.from(notesCards).forEach(function (element) {
-        // console.log(element);
+        console.log(element.innerText);
         let cardTxt = element.getElementsByTagName("p")[0].innerText;
         // console.log(cardTxt);
 
